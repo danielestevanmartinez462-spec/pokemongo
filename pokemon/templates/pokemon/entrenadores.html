@@ -1,0 +1,36 @@
+
+{% extends 'pokemon/base.html' %}
+
+{% block titulo %}Entrenadores{% endblock %}
+{% block encabezado %}Entrenadores Pokémon{% endblock %}
+{% block subtitulo %}Conoce a los entrenadores registrados{% endblock %}
+
+{% block contenido %}
+<div class="grid">
+    {% for e in entrenadores %}
+    <article class="card">
+        <div class="card-body">
+            <h2>{{ e.nombre }} {{ e.apellido }}</h2>
+
+            <p><strong>Documento:</strong> {{ e.id_documento }}</p>
+
+            <h3>Medallas</h3>
+            {% for medalla in e.medallas.all %}
+                <p>{{ medalla.medallas }} - {{ medalla.elemento }}</p>
+            {% empty %}
+                <p>No tiene medallas todavía.</p>
+            {% endfor %}
+
+            <h3>Pokémon</h3>
+            {% for p in e.pokemones.all %}
+                <p>{{ p.nombre }} - {{ p.elemento }}</p>
+            {% empty %}
+                <p>No tiene Pokémon registrados.</p>
+            {% endfor %}
+        </div>
+    </article>
+    {% empty %}
+        <p class="vacio">No hay entrenadores registrados todavía.</p>
+    {% endfor %}
+</div>
+{% endblock %}

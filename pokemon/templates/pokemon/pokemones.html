@@ -1,0 +1,313 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon World</title>
+    <link rel="stylesheet" href="{% static 'pokemon/style.css' %}?v=3">
+</head>
+<body>
+
+<header class="encabezado">
+    <div class="logo">
+        <span class="pokebola">◉</span>
+        <h2>Pokémon <span>POKÉDEX</span></h2>
+    </div>
+
+   <nav>
+    <a href="{% url 'inicio' %}">Inicio</a>
+
+    <a href="{% url 'lista_pokemones' %}" class="seleccionado">
+        Pokémon
+    </a>
+
+    <a href="{% url 'entrenadores' %}">Entrenadores</a>
+
+    <a href="{% url 'gimnasios' %}">Gimnasios</a>
+</nav>
+    <div class="buscar-header">
+        <input type="text" id="buscar" placeholder="Buscar Pokémon...">
+    </div>
+</header>
+
+<main>
+
+    <section class="portada" id="inicio">
+
+        <div class="portada-texto">
+            <p class="subtitulo">BIENVENIDO A POKÉMON WORLD</p>
+
+            <h1>¡Bienvenido a la<br><span>Pokédex!</span></h1>
+
+            <p>
+                Descubre, conoce y colecciona los Pokémon del mundo.
+                Explora sus habilidades, elementos y características
+                y conviértete en un gran entrenador.
+            </p>
+
+            <a href="#pokemones" class="boton">◉ Explorar Pokémon →</a>
+        </div>
+
+        <div class="portada-imagen">
+            <img src="{% static 'pokemon/img/imagendeportada.jpg' %}"
+                 alt="Portada Pokémon">
+        </div>
+
+    </section>
+
+    <section class="barra-filtros">
+
+        <div class="total">
+          
+            <p>Total de Pokémon: <strong>{{ pokemones.count }}</strong></p>
+        </div>
+
+        <div class="filtros">
+            <strong>Filtrar por elemento:</strong>
+
+            <button class="filtro activo" data-tipo="todos">Todos</button>
+            <button class="filtro" data-tipo="fuego"> Fuego</button>
+            <button class="filtro" data-tipo="agua">Agua</button>
+            <button class="filtro" data-tipo="planta">Planta</button>
+            <button class="filtro" data-tipo="eléctrico"> Eléctrico</button>
+            <button class="filtro" data-tipo="normal">Normal</button>
+            <button class="filtro" data-tipo="fantasma"> Fantasma</button>
+            <button class="filtro" data-tipo="otro"> Otro</button>
+        </div>
+
+    </section>
+
+    <section class="coleccion" id="pokemones">
+
+        <div class="titulo">
+            <p>CONOCE NUESTRA COLECCIÓN</p>
+            <h2>Pokémon registrados</h2>
+
+            <a href="{% url 'crear_pokemon' %}" class="boton">
+                 Registrar Pokémon
+            </a>
+        </div>
+
+        <div class="contenedor-pokemon">
+
+            {% for p in pokemones %}
+
+            <div class="tarjeta-pokemon"
+                 data-nombre="{{ p.nombre|lower }}"
+                 data-elemento="{{ p.elemento|lower }}">
+
+                <span class="numero">
+                    {{ forloop.counter|stringformat:"02d" }}
+                </span>
+
+                <div class="imagen-pokemon">
+                    {% if p.imagen %}
+                        <img src="{{ p.imagen }}" alt="{{ p.nombre }}">
+                    {% else %}
+                        
+                    {% endif %}
+                </div>
+
+                <div class="informacion">
+
+                    <h3>{{ p.nombre }}</h3>
+
+                    <span class="tipo">{{ p.elemento }}</span>
+
+                    <p><strong>Peso:</strong> {{ p.peso }} kg</p>
+
+                    <p>
+                        <strong>Habilidades:</strong>
+                        {{ p.habilidades|truncatewords:9 }}
+                    </p>
+
+                    <p class="descripcion">
+                        {{ p.descripcion|truncatewords:13 }}
+                    </p>
+
+                    <button class="boton-detalle" onclick="verDetalle(this)">
+                        Ver detalles →
+                    </button>
+
+                    <div class="acciones-pokemon">
+
+                        <a href="{% url 'editar_pokemon' p.id %}"
+                           class="boton-editar">
+                            Editar
+                        </a>
+
+                        <form action="{% url 'eliminar_pokemon' p.id %}"
+                              method="POST"
+                              onsubmit="return confirm('¿Seguro que deseas eliminar este Pokémon?');">
+                            {% csrf_token %}
+                            <button type="submit" class="boton-eliminar">
+                                Eliminar
+                            </button>
+                        </form>
+
+                    </div>
+
+                    <div class="datos-completos">
+                        <p><strong>Nombre:</strong> {{ p.nombre }}</p>
+                        <p><strong>Elemento:</strong> {{ p.elemento }}</p>
+                        <p><strong>Peso:</strong> {{ p.peso }} kg</p>
+                        <p><strong>Naturaleza:</strong> {{ p.naturaleza }}</p>
+                        <p><strong>Habilidades:</strong> {{ p.habilidades }}</p>
+                        <p><strong>Descripción:</strong> {{ p.descripcion }}</p>
+
+                        <p>
+                            <strong>Entrenador:</strong>
+                            {% if p.entrenador %}
+                                {{ p.entrenador.nombre }} {{ p.entrenador.apellido }}
+                            {% else %}
+                                Sin entrenador
+                            {% endif %}
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+            {% empty %}
+                <p class="vacio">Todavía no tienes Pokémon registrados.</p>
+            {% endfor %}
+
+        </div>
+
+        <p id="sinResultados">No se encontraron Pokémon.</p>
+
+    </section>
+
+    <section class="paneles">
+
+        <div class="panel">
+            <div class="panel-icono">♟</div>
+            <div>
+                <h3>Nuestros Entrenadores</h3>
+                <p>Conoce a los entrenadores más fuertes.</p>
+                <a href="{% url 'entrenadores' %}">Ver entrenadores →</a>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-icono"></div>
+            <div>
+                <h3>Gimnasios Pokémon</h3>
+                <p>Desafía a los líderes y consigue medallas.</p>
+                <a href="{% url 'gimnasios' %}">Ver gimnasios →</a>
+            </div>
+        </div>
+
+        <div class="panel panel-frase">
+            <h3>No es solo un juego...</h3>
+            <p>¡Es una forma de vida!</p>
+            <span></span>
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    <p> Pokémon World | Proyecto Django © 2026</p>
+</footer>
+
+<div class="modal" id="modal">
+    <div class="modal-contenido">
+        <button class="cerrar" onclick="cerrarDetalle()">×</button>
+        <h2>Información del Pokémon</h2>
+        <div id="detalleContenido"></div>
+    </div>
+</div>
+
+<script>
+    const buscar = document.getElementById("buscar");
+    const tarjetas = document.querySelectorAll(".tarjeta-pokemon");
+    const filtros = document.querySelectorAll(".filtro");
+
+    let tipoSeleccionado = "todos";
+
+    function normalizar(texto) {
+        return texto.toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function filtrarPokemon() {
+        const texto = normalizar(buscar.value);
+        let encontrados = 0;
+
+        tarjetas.forEach(tarjeta => {
+            const nombre = normalizar(tarjeta.dataset.nombre);
+            const tipo = normalizar(tarjeta.dataset.elemento);
+
+            const coincideNombre = nombre.includes(texto);
+
+            const otros = [
+                "fuego", "agua", "planta",
+                "electrico", "normal", "fantasma"
+            ];
+
+            const coincideTipo = tipoSeleccionado === "todos" ||
+                (tipoSeleccionado === "otro"
+                    ? !otros.includes(tipo)
+                    : tipo === normalizar(tipoSeleccionado));
+
+            if (coincideNombre && coincideTipo) {
+                tarjeta.style.display = "";
+                encontrados++;
+            } else {
+                tarjeta.style.display = "none";
+            }
+        });
+
+        document.getElementById("sinResultados").style.display =
+            encontrados === 0 ? "block" : "none";
+    }
+
+    buscar.addEventListener("input", filtrarPokemon);
+
+    filtros.forEach(boton => {
+        boton.addEventListener("click", function() {
+            filtros.forEach(f => f.classList.remove("activo"));
+
+            this.classList.add("activo");
+            tipoSeleccionado = this.dataset.tipo;
+
+            filtrarPokemon();
+        });
+    });
+
+    function verDetalle(boton) {
+        const tarjeta = boton.closest(".tarjeta-pokemon");
+        const datos = tarjeta.querySelector(".datos-completos");
+
+        document.getElementById("detalleContenido").innerHTML =
+            datos.innerHTML;
+
+        document.getElementById("modal").style.display = "flex";
+    }
+
+    function cerrarDetalle() {
+        document.getElementById("modal").style.display = "none";
+    }
+
+    window.addEventListener("click", function(event) {
+        const modal = document.getElementById("modal");
+
+        if (event.target === modal) {
+            cerrarDetalle();
+        }
+    });
+
+    window.addEventListener("keydown", function(event) {
+        if (event.key === "Escape") {
+            cerrarDetalle();
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+{% extends 'pokemon/base.html' %}
+{% load static %}
+
+{% block titulo %}Editar Pokémon{% endblock %}
+{% block encabezado %}Editar Pokémon{% endblock %}
+{% block subtitulo %}Actualiza la información de tu Pokémon{% endblock %}
+
+{% block contenido %}
+
+<div class="formulario-pokemon">
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Nombre</label>
+        <input type="text" name="nombre" value="{{ pok.nombre }}" required>
+
+        <label>Peso</label>
+        <input type="number" step="any" name="peso" value="{{ pok.peso }}" required>
+
+        <label>Imagen (URL)</label>
+        <input type="url" name="imagen" value="{{ pok.imagen }}">
+
+        <label>Entrenador</label>
+        <select name="entrenador">
+            <option value="">Sin entrenador</option>
+            {% for e in entrenadores %}
+                <option value="{{ e.id }}"
+                    {% if pok.entrenador_id == e.id %}selected{% endif %}>
+                    {{ e.nombre }} {{ e.apellido }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label>Habilidades</label>
+        <textarea name="habilidades" required>{{ pok.habilidades }}</textarea>
+
+        <label>Naturaleza</label>
+        <input type="text" name="naturaleza" value="{{ pok.naturaleza }}" required>
+
+        <label>Elemento</label>
+        <input type="text" name="elemento" value="{{ pok.elemento }}" required>
+
+        <label>Descripción</label>
+        <textarea name="descripcion" required>{{ pok.descripcion }}</textarea>
+
+        <button type="submit" class="boton">Guardar cambios</button>
+        <a href="{% url 'inicio' %}" class="boton-editar">Cancelar</a>
+    </form>
+</div>
+
+{% endblock %}

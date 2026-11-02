@@ -1,0 +1,170 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inicio | Pokémon World</title>
+
+<link rel="stylesheet" href="{% static 'pokemon/css/style.css' %}">
+</head>
+
+<body>
+
+    <header class="encabezado">
+
+        <div class="logo">
+            <span class="pokebola"></span>
+            <h2>Pokémon <span>WORLD</span></h2>
+        </div>
+
+        <nav>
+            <a href="{% url 'inicio' %}" class="seleccionado">Inicio</a>
+            <a href="{% url 'lista_pokemones' %}">Pokémon</a>
+            <a href="{% url 'entrenadores' %}">Entrenadores</a>
+            <a href="{% url 'gimnasios' %}">Gimnasios</a>
+        </nav>
+
+    </header>
+
+    <main>
+
+        <section class="portada" id="inicio">
+
+            <div class="portada-texto">
+
+                <p class="subtitulo">BIENVENIDO A POKÉMON WORLD</p>
+
+                <h1>
+                    ¡Bienvenido a la
+                    <span>Pokédex!</span>
+                </h1>
+
+                <p>
+                    Explora el maravilloso mundo Pokémon.
+                    Descubre criaturas increíbles, conoce sus habilidades,
+                    reúne entrenadores y conquista gimnasios.
+                </p>
+
+                <div class="portada-botones">
+
+                    <a href="{% url 'lista_pokemones' %}" class="boton btn-pokemon">
+                         Explorar Pokémon 
+                    </a>
+
+                    <a href="{% url 'crear_pokemon' %}" class="boton-secundario btn-registro">
+                         Registrar Pokémon
+                    </a>
+
+                    <a href="{% url 'entrenadores' %}" class="boton btn-azul">
+                         Entrenadores
+                    </a>
+
+                    <a href="{% url 'gimnasios' %}" class="boton btn-rojo">
+                         Gimnasios
+                    </a>
+
+                </div>
+
+            </div>
+
+
+           <div class="portada-imagen">
+           <img src="{% static 'pokemon/img/imagendeportada.jpg' %}" alt="Bienvenido al mundo Pokémon">
+           </div>
+
+        </section>
+
+        <section class="coleccion">
+
+            <div class="titulo">
+
+                <p>COMIENZA TU AVENTURA</p>
+
+                <h2>Explora nuestro mundo</h2>
+
+                <p>
+                    Todo gran entrenador necesita una aventura.
+                    ¡Elige tu próximo destino!
+                </p>
+
+            </div>
+
+            <div class="paneles">
+
+                <div class="panel">
+
+                    <div class="panel-icono"></div>
+
+                    <div>
+                        <h3>Pokémon</h3>
+
+                        <p>
+                            Descubre todos los Pokémon registrados
+                            en nuestra colección.
+                        </p>
+
+                        <a href="{% url 'lista_pokemones' %}">
+                            Ver colección →
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="panel">
+
+                    <div class="panel-icono"></div>
+
+                    <div>
+                        <h3>Entrenadores</h3>
+
+                        <p>
+                            Conoce a los entrenadores y sus
+                            compañeros Pokémon.
+                        </p>
+
+                        <a href="{% url 'entrenadores' %}">
+                            Ver entrenadores →
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="panel">
+
+                    <div class="panel-icono"></div>
+
+                    <div>
+                        <h3>Gimnasios</h3>
+
+                        <p>
+                            Explora los gimnasios y prepárate
+                            para conseguir medallas.
+                        </p>
+
+                        <a href="{% url 'gimnasios' %}">
+                            Ver gimnasios →
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+        <section class="panel panel-frase">
+
+            <h2>¡Tu aventura comienza aquí!</h2>
+
+            <p>
+                Atrápalos, entrénalos y conviértete
+                en el mejor maestro Pokémon.
+            </p>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

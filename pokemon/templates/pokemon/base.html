@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block titulo %}Pokémon World{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'pokemon/style.css' %}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a class="logo" href="{% url 'inicio' %}">
+            Pokémon<span>POKÉDEX</span>
+        </a>
+
+        <div class="links">
+            <a href="{% url 'inicio' %}">Inicio</a>
+            <a href="{% url 'lista_pokemones' %}">Pokémon</a>
+            <a href="{% url 'entrenadores' %}">Entrenadores</a>
+            <a href="{% url 'gimnasios' %}">Gimnasios</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>{% block encabezado %}{% endblock %}</h1>
+        <p>{% block subtitulo %}{% endblock %}</p>
+    </header>
+
+    <main class="contenedor">
+        {% block contenido %}{% endblock %}
+    </main>
+<div class="reproductor">
+    <button id="btnMusica" onclick="controlarMusica()">▶</button>
+    <span>Pokémon Music</span>
+    <input type="range" id="volumen" min="0" max="1"
+           step="0.1" value="0.5">
+</div>
+
+<audio id="musica" loop>
+    <source src="{% static 'pokemon/audio/businessstar-the-crazy-puzzle-dolby-atmos-audio-388160.mp3' %}" type="audio/mpeg">
+</audio>
+
+<style>
+.reproductor {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #202c45;
+    color: white;
+    padding: 15px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 15px #0005;
+    z-index: 9999;
+}
+
+.reproductor button {
+    background: #ffcb05;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.reproductor input {
+    width: 80px;
+}
+</style>
+<script>
+const musica = document.getElementById("musica");
+const boton = document.getElementById("btnMusica");
+const volumen = document.getElementById("volumen");
+
+musica.volume = 0.5;
+
+async function controlarMusica() {
+    if (musica.paused) {
+        try {
+            await musica.play();
+            boton.textContent = "Ⅱ";
+        } catch (error) {
+            alert("No se pudo reproducir la música. Revisa el archivo MP3.");
+        }
+    } else {
+        musica.pause();
+        boton.textContent = "▶";
+    }
+}
+
+volumen.addEventListener("input", function() {
+    musica.volume = Number(volumen.value);
+});
+
+musica.addEventListener("ended", function() {
+    boton.textContent = "▶";
+});
+</script>
+</body>
+</html>

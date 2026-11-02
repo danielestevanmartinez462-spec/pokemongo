@@ -1,0 +1,70 @@
+{% extends 'pokemon/base.html' %}
+{% load static %}
+{% block titulo %}Registrar Pokémon{% endblock %}
+{% block encabezado %}Registrar Pokémon{% endblock %}
+{% block subtitulo %}Agrega un nuevo integrante a la Pokédex{% endblock %}
+{% block contenido %}
+
+<div class="formulario-pokemon">
+
+    <h2>Nuevo Pokémon</h2>
+    <p>Completa la información para registrarlo</p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Nombre del Pokémon</label>
+        <input type="text" name="nombre" placeholder="Ejemplo: Pikachu" required>
+
+        <label>Peso (kg)</label>
+        <input type="number" step="any" name="peso" placeholder="Ejemplo: 6.0" required>
+
+        <label>Imagen (URL)</label>
+        <input type="url" name="imagen" placeholder="Pega el enlace de la imagen">
+
+        <label>Entrenador</label>
+        <select name="entrenador">
+            <option value="">Sin entrenador</option>
+            {% for e in entrenadores %}
+                <option value="{{ e.id }}">
+                    {{ e.nombre }} {{ e.apellido }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label>Habilidades</label>
+        <textarea name="habilidades" placeholder="Escribe sus habilidades" required></textarea>
+
+        <label>Naturaleza</label>
+        <input type="text" name="naturaleza" placeholder="Ejemplo: Alegre" required>
+
+        <label>Elemento</label>
+        <select name="elemento" required>
+            <option value="">Selecciona un elemento</option>
+            <option value="Fuego">Fuego</option>
+            <option value="Agua">Agua</option>
+            <option value="Planta">Planta</option>
+            <option value="Eléctrico">Eléctrico</option>
+            <option value="Normal">Normal</option>
+            <option value="Fantasma">Fantasma</option>
+            <option value="Otro">Otro</option>
+        </select>
+
+        <label>Descripción</label>
+        <textarea name="descripcion" placeholder="Describe tu Pokémon" required></textarea>
+
+        <div class="acciones-pokemon">
+            <button type="submit" class="boton">
+                Registrar Pokémon
+            </button>
+
+            <a href="{% url 'inicio' %}" class="boton-editar">
+                Cancelar
+            </a>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

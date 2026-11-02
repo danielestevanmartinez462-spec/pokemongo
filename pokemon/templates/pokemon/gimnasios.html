@@ -1,0 +1,25 @@
+{% extends 'pokemon/base.html' %}
+{% block titulo %}Gimnasios{% endblock %}
+{% block encabezado %}Gimnasios Pokémon{% endblock %}
+{% block subtitulo %}Conoce los gimnasios y sus líderes{% endblock %}
+{% block contenido %}
+
+<div class="grid">
+    {% for g in gimnasios %}
+    <div class="card">
+        <div class="card-img">
+            <span class="sin-imagen"></span>
+        </div>
+
+        <div class="card-body">
+            <span class="badge">{{ g.elemento }}</span>
+            <h2>{{ g.lider }}</h2>
+            <p>Medallas: {{ g.medallas }}</p>
+        </div>
+    </div>
+    {% empty %}
+    <p class="vacio">No hay gimnasios registrados.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}
