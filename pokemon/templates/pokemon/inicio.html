@@ -4,167 +4,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+ 
     <title>Inicio | Pokémon World</title>
-
-<link rel="stylesheet" href="{% static 'pokemon/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'pokemon/css/style.css' %}">
 </head>
-
+ 
 <body>
-
+ 
     <header class="encabezado">
-
+ 
         <div class="logo">
             <span class="pokebola"></span>
-            <h2>Pokémon <span>WORLD</span></h2>
+            <h2>Pokémon <span>GO</span></h2>
         </div>
-
+ 
         <nav>
             <a href="{% url 'inicio' %}" class="seleccionado">Inicio</a>
             <a href="{% url 'lista_pokemones' %}">Pokémon</a>
             <a href="{% url 'entrenadores' %}">Entrenadores</a>
             <a href="{% url 'gimnasios' %}">Gimnasios</a>
         </nav>
-
+ 
     </header>
-
+ 
     <main>
-
+ 
+        {% if messages %}
+            {% for m in messages %}
+                <div class="mensaje">{{ m }}</div>
+            {% endfor %}
+        {% endif %}
+ 
         <section class="portada" id="inicio">
-
+ 
             <div class="portada-texto">
-
-                <p class="subtitulo">BIENVENIDO A POKÉMON WORLD</p>
-
+ 
+                <p class="subtitulo">BIENVENIDO A POKÉMON POKÉDEX</p>
+ 
                 <h1>
                     ¡Bienvenido a la
                     <span>Pokédex!</span>
                 </h1>
-
+ 
                 <p>
                     Explora el maravilloso mundo Pokémon.
                     Descubre criaturas increíbles, conoce sus habilidades,
                     reúne entrenadores y conquista gimnasios.
                 </p>
-
+ 
                 <div class="portada-botones">
-
+ 
                     <a href="{% url 'lista_pokemones' %}" class="boton btn-pokemon">
-                         Explorar Pokémon 
+                         Explorar Pokémon
                     </a>
-
+ 
                     <a href="{% url 'crear_pokemon' %}" class="boton-secundario btn-registro">
                          Registrar Pokémon
                     </a>
-
+ 
                     <a href="{% url 'entrenadores' %}" class="boton btn-azul">
                          Entrenadores
                     </a>
-
+ 
                     <a href="{% url 'gimnasios' %}" class="boton btn-rojo">
                          Gimnasios
                     </a>
-
+ 
                 </div>
-
+ 
             </div>
-
-
-           <div class="portada-imagen">
-           <img src="{% static 'pokemon/img/imagendeportada.jpg' %}" alt="Bienvenido al mundo Pokémon">
-           </div>
-
+ 
+            <div class="portada-imagen">
+                <img src="{% static 'pokemon/img/imagendeportada.jpg' %}" alt="Bienvenido al mundo Pokémon">
+            </div>
+ 
         </section>
-
+ 
         <section class="coleccion">
-
+ 
             <div class="titulo">
-
+ 
                 <p>COMIENZA TU AVENTURA</p>
-
+ 
                 <h2>Explora nuestro mundo</h2>
-
+ 
                 <p>
                     Todo gran entrenador necesita una aventura.
                     ¡Elige tu próximo destino!
                 </p>
-
+ 
             </div>
-
+ 
             <div class="paneles">
-
+ 
                 <div class="panel">
-
+ 
                     <div class="panel-icono"></div>
-
+ 
                     <div>
                         <h3>Pokémon</h3>
-
+ 
                         <p>
                             Descubre todos los Pokémon registrados
                             en nuestra colección.
                         </p>
-
+ 
                         <a href="{% url 'lista_pokemones' %}">
                             Ver colección →
                         </a>
                     </div>
-
+ 
                 </div>
-
+ 
                 <div class="panel">
-
+ 
                     <div class="panel-icono"></div>
-
+ 
                     <div>
                         <h3>Entrenadores</h3>
-
+ 
                         <p>
                             Conoce a los entrenadores y sus
                             compañeros Pokémon.
                         </p>
-
+ 
                         <a href="{% url 'entrenadores' %}">
                             Ver entrenadores →
                         </a>
                     </div>
-
+ 
                 </div>
-
+ 
                 <div class="panel">
-
+ 
                     <div class="panel-icono"></div>
-
+ 
                     <div>
                         <h3>Gimnasios</h3>
-
+ 
                         <p>
                             Explora los gimnasios y prepárate
                             para conseguir medallas.
                         </p>
-
+ 
                         <a href="{% url 'gimnasios' %}">
                             Ver gimnasios →
                         </a>
                     </div>
-
+ 
                 </div>
-
+ 
             </div>
-
+ 
         </section>
+ 
+        <section class="entrenamiento" id="entrenamiento">
+ 
+            <div class="titulo">
+                <p>ENTRENAMIENTO</p>
+                <h2>Tus Pokémon</h2>
+            </div>
+ 
+            <div class="entrenar-grid">
+                {% for p in pokemones %}
+                <article class="ficha" id="poke-{{ p.id }}">
+ 
+                    <header class="ficha-cabecera">
+                        <h3>{{ p.nombre }}</h3>
+                        <span class="ficha-nivel">Nv.{{ p.nivel }}</span>
+                    </header>
+ 
+                    <div class="habilidades">
+                        {% for h in p.lista_habilidades %}
+                            <span class="habilidad">{{ h }}</span>
+                        {% empty %}
+                            <span class="habilidad vacia">Sin habilidades</span>
+                        {% endfor %}
+                    </div>
+ 
+                    <div class="escenario">
+                        {% if p.imagen %}
+                            <img src="{{ p.imagen }}" alt="{{ p.nombre }}" data-escala="{{ p.escala }}">
+                        {% endif %}
+                    </div>
+ 
+                    <div class="exp">
+                        <span class="exp-etiqueta">EXP</span>
+                        <div class="exp-barra">
+                            <div class="exp-relleno" data-pct="{{ p.pct }}"></div>
+                        </div>
+                    </div>
+                    <p class="exp-numeros">{{ p.xp_actual }} / {{ p.xp_meta }}</p>
+ 
+                    <form method="post" action="{% url 'entrenar_pokemon' p.id %}" class="ficha-botones">
+                        {% csrf_token %}
+                        <button type="submit" name="xp" value="50" class="btn-xp">+50 XP</button>
+                        <button type="submit" name="xp" value="500" class="btn-xp btn-xp-fuerte">+500 XP</button>
+                    </form>
+ 
+                </article>
+                {% empty %}
+                    <p>Aún no hay Pokémon registrados.</p>
+                {% endfor %}
+            </div>
+ 
+        </section>
+ 
         <section class="panel panel-frase">
-
+ 
             <h2>¡Tu aventura comienza aquí!</h2>
-
+ 
             <p>
                 Atrápalos, entrénalos y conviértete
                 en el mejor maestro Pokémon.
             </p>
-
+ 
         </section>
-
+ 
     </main>
-
+ 
+    <script>
+        document.querySelectorAll('[data-escala]').forEach(function (img) {
+            img.style.transform = 'scale(' + img.dataset.escala + ')';
+        });
+        window.addEventListener('load', function () {
+            document.querySelectorAll('[data-pct]').forEach(function (barra) {
+                barra.style.width = barra.dataset.pct + '%';
+            });
+        });
+    </script>
+ 
 </body>
 </html>

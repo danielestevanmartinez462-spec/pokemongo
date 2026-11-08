@@ -1038,3 +1038,305 @@ button:hover {
 .portada-botones a:active {
     transform: scale(.96);
 }
+.mensaje {
+    background: #10b981;
+    color: #04110c;
+    padding: 12px 20px;
+    margin: 16px auto;
+    max-width: 900px;
+    border-radius: 12px;
+    font-weight: 600;
+    text-align: center;
+}
+ 
+.entrenamiento {
+    padding: 40px 20px;
+}
+ 
+.entrenar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    max-width: 1100px;
+    margin: 30px auto 0;
+}
+ 
+.tarjeta-entrenar {
+    background: #0f2a20;
+    border: 1px solid #10b981;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    color: #fff;
+}
+ 
+.tarjeta-entrenar img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+}
+ 
+.tarjeta-entrenar button {
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+/* ===== Entrenamiento: mensajes, tarjetas, barra de XP y tamaño por nivel ===== */
+ 
+/* Aviso flotante arriba (desaparece solo a los 5 segundos) */
+.mensaje {
+    position: fixed;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background: #10b981;
+    color: #04110c;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(16, 185, 129, 0.45);
+    pointer-events: none;
+    animation: aviso 5s ease forwards;
+}
+ 
+@keyframes aviso {
+    0%   { opacity: 0; top: 70px; }
+    8%   { opacity: 1; top: 90px; }
+    85%  { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+}
+ 
+.entrenamiento {
+    padding: 40px 20px;
+}
+ 
+.entrenar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+    max-width: 1100px;
+    margin: 30px auto 0;
+}
+ 
+.tarjeta-entrenar {
+    position: relative;
+    background: #0f2a20;
+    border: 1px solid #10b981;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    color: #fff;
+    scroll-margin-top: 100px;
+}
+ 
+/* La tarjeta recién entrenada brilla */
+.tarjeta-entrenar:target {
+    animation: brillo 1.4s ease;
+}
+ 
+@keyframes brillo {
+    0%   { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    30%  { box-shadow: 0 0 35px 8px rgba(16, 185, 129, 0.8); }
+    100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+ 
+/* Insignia de nivel */
+.insignia-nivel {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #10b981;
+    color: #04110c;
+    font-weight: 800;
+    font-size: 0.85rem;
+    padding: 4px 10px;
+    border-radius: 999px;
+}
+ 
+/* Escenario: el Pokémon crece desde el suelo hacia arriba */
+.escenario {
+    height: 180px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+ 
+.escenario img {
+    height: 130px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    transform-origin: bottom center;
+    transition: transform 0.8s ease;
+}
+ 
+.tarjeta-entrenar h3 {
+    margin: 10px 0 8px;
+}
+ 
+/* Barra de XP */
+.barra-xp {
+    height: 12px;
+    background: #06140f;
+    border: 1px solid #1f5c46;
+    border-radius: 999px;
+    overflow: hidden;
+}
+ 
+.barra-xp-relleno {
+    height: 100%;
+    background: linear-gradient(90deg, #10b981, #6ee7b7);
+    border-radius: 999px;
+    transition: width 0.8s ease;
+}
+ 
+.xp-texto {
+    margin: 6px 0 12px;
+    font-size: 0.85rem;
+    opacity: 0.85;
+}
+ 
+/* Botones de entrenamiento */
+.botones-entrenar {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+ 
+.botones-entrenar button {
+    border: none;
+    cursor: pointer;
+    padding: 8px 14px;
+    font-size: 0.9rem;
+}.habilidades {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
+}
+.habilidad {
+  font-size: 0.75rem;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid #22c58b;
+  color: #22c58b;
+  background: rgba(34, 197, 139, 0.1);
+}
+.habilidad.vacia {
+  opacity: 0.5;
+}/* ===== Fichas de Pokémon ===== */
+.ficha {
+  background: linear-gradient(160deg, #161a23 0%, #12151c 100%);
+  border: 1px solid rgba(34, 197, 139, 0.18);
+  border-radius: 18px;
+  padding: 18px 18px 20px;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.ficha:hover {
+  transform: translateY(-4px);
+  border-color: rgba(34, 197, 139, 0.55);
+  box-shadow: 0 10px 28px rgba(34, 197, 139, 0.12);
+}
+
+.ficha-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.ficha-cabecera h3 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+.ficha-nivel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(139, 92, 246, 0.18);
+  color: #c4b5fd;
+  border: 1px solid rgba(139, 92, 246, 0.45);
+  white-space: nowrap;
+}
+
+/* ===== Habilidades ===== */
+.habilidades {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0 4px;
+}
+.habilidad {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 4px 11px;
+  border-radius: 999px;
+  color: #22c58b;
+  background: rgba(34, 197, 139, 0.1);
+  border: 1px solid rgba(34, 197, 139, 0.45);
+}
+.habilidad.vacia {
+  opacity: 0.45;
+  font-style: italic;
+}
+
+/* ===== Escenario, EXP y botones ===== */
+.escenario {
+  display: flex;
+  align-items: flex-end;   /* antes decía center */
+  justify-content: center;
+  min-height: 170px;
+  margin: 8px 0;
+  border-radius: 14px;
+  background: radial-gradient(circle at 50% 60%, rgba(34, 197, 139, 0.12), transparent 70%);
+}
+.escenario img {
+  max-height: 150px;
+  max-width: 100%;
+  filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.5));
+}
+
+.exp {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+.exp-etiqueta {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #9ca3af;
+}
+.exp-barra {
+  flex: 1;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+.exp-relleno {
+  height: 100%;
+  width: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #22c58b, #8b5cf6);
+  transition: width 0.6s ease;
+}
+.exp-numeros {
+  margin: 6px 0 12px;
+  font-size: 0.8rem;
+  color: #9ca3af;
+  text-align: right;
+}
+
+.ficha-botones {
+  display: flex;
+  gap: 8px;
+}
+.ficha-botones .btn-xp {
+  flex: 1;
+}

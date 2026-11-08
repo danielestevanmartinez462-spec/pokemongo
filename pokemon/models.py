@@ -30,4 +30,28 @@ class entrenador (models.Model):
     def __str__(self):
         return f'{self.id_documento}-{self.nombre}-{self.apellido}-{self.medallas}'
 
-  
+class pokemon(models.Model):
+    nombre = models.CharField(max_length=30)
+    peso = models.FloatField()
+    imagen = models.URLField(blank=True)
+    entrenador = models.ForeignKey(
+        'entrenador',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="pokemones",
+    )
+    habilidades = models.TextField()
+    naturaleza = models.CharField(max_length=50)
+    elemento = models.CharField(max_length=50)
+    descripcion = models.TextField()
+    nivel = models.PositiveIntegerField(default=1)
+    experiencia = models.PositiveIntegerField(default=0)
+    pokemon_id_api = models.PositiveIntegerField(null=True, blank=True)
+
+    @property
+    def lista_habilidades(self):
+        return [h.strip() for h in self.habilidades.split(",") if h.strip()]
+
+    def __str__(self):
+        return f'{self.nombre} (Nv. {self.nivel})'
